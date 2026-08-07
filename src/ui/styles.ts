@@ -5,7 +5,7 @@
  * Design philosophy: Clean, readable, non-intrusive.
  */
 
-export const COLORS = {
+export const DARK_COLORS = {
   // Background
   bgPrimary: '#1e1e1e',
   bgSecondary: '#252526',
@@ -31,7 +31,35 @@ export const COLORS = {
   // Interactive
   buttonBg: '#0e639c',
   buttonHover: '#1177bb',
-} as const;
+} as const
+
+export const COLORS = {
+  // Background
+  bgPrimary: '#ffffff',
+  bgSecondary: '#f8f8f8',
+  bgHover: '#f3f3f3',
+  bgHeader: '#f5f5f5',
+
+  // Text
+  textPrimary: '#1f1f1f',
+  textSecondary: '#5f5f5f',
+  textMuted: '#8a8a8a',
+
+  // Log Levels
+  levelDebug: '#8a8a8a',
+  levelInfo: '#005fb8',
+  levelWarn: '#b76e00',
+  levelError: '#d13438',
+
+  // Accents
+  border: '#dcdcdc',
+  scrollbar: '#c2c2c2',
+  scrollbarHover: '#a8a8a8',
+
+  // Interactive
+  buttonBg: '#0e639c',
+  buttonHover: '#1177bb',
+} as const
 
 export const STYLES = `
   :host {
@@ -57,21 +85,12 @@ export const STYLES = `
 
   /* Container */
   .devlogger-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 420px;
-    height: 100vh;
+    max-height: 700px;
+    min-height: 400px;
     background: var(--bg-primary);
-    border-left: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    z-index: 99999;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
-  }
-
-  .devlogger-container.hidden {
-    display: none;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   }
 
   /* Header */
@@ -702,4 +721,4 @@ export const STYLES = `
   .log-data-diff .log-data-toggle {
     color: ${COLORS.levelInfo};
   }
-`;
+`
