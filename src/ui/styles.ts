@@ -264,7 +264,6 @@ export const STYLES = `
     background: rgba(55, 148, 255, 0.1);
     padding: 2px 6px;
     border-radius: 3px;
-    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
