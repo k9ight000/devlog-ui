@@ -48,18 +48,17 @@ function checkEnvEnabled(): boolean {
     // CRA/Webpack: process.env.REACT_APP_DEVLOGGER_ENABLED
     // Generic: process.env.DEVLOGGER_ENABLED
 
-    // @ts-expect-error - Vite env
-    if (typeof import.meta !== 'undefined' && import.meta.env) {
-      // @ts-expect-error - Vite env
-      const viteEnabled = import.meta.env.VITE_DEVLOGGER_ENABLED;
+    const viteEnv = (import.meta as ImportMeta & {
+      env?: Record<string, string | boolean | undefined>;
+    }).env;
+    if (viteEnv) {
+      const viteEnabled = viteEnv.VITE_DEVLOGGER_ENABLED;
       if (viteEnabled === 'false' || viteEnabled === '0') return false;
       if (viteEnabled === 'true' || viteEnabled === '1') return true;
 
       // Check Vite mode
-      // @ts-expect-error - Vite env
-      if (import.meta.env.PROD === true) return false;
-      // @ts-expect-error - Vite env
-      if (import.meta.env.DEV === true) return true;
+      if (viteEnv.PROD === true) return false;
+      if (viteEnv.DEV === true) return true;
     }
 
     // Check process.env (Node.js / Webpack / CRA)
