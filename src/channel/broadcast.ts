@@ -51,6 +51,24 @@ class LoggerChannel {
 
   constructor() {
     this.senderId = generateSenderId();
+  }
+
+  /**
+   * Connect lazily so importing the logger during SSR or a build does not
+   * create a Node.js BroadcastChannel that keeps the process alive.
+   */
+  private ensureConnected(): void {
+    if (this.isConnected) {
+      return;
+    }
+
+    const nodeProcess = (globalThis as typeof globalThis & {
+      process?: { versions?: { node?: string } };
+    }).process;
+    if (nodeProcess?.versions?.node) {
+      return;
+    }
+
     this.connect();
   }
 
@@ -102,6 +120,7 @@ class LoggerChannel {
    */
   send(type: MessageType, payload?: unknown): void {
     try {
+      this.ensureConnected();
       if (!this.channel || !this.isConnected) {
         return;
       }
@@ -151,6 +170,7 @@ class LoggerChannel {
    * Subscribe to channel messages
    */
   subscribe(handler: MessageHandler): () => void {
+    this.ensureConnected();
     this.handlers.add(handler);
     return () => {
       this.handlers.delete(handler);
@@ -161,6 +181,7 @@ class LoggerChannel {
    * Check if channel is connected
    */
   isActive(): boolean {
+    this.ensureConnected();
     return this.isConnected;
   }
 
